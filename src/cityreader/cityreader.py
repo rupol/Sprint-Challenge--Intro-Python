@@ -7,10 +7,10 @@ class City():
     self.lon = lon
 
   def __str__(self):
-    return f'{self.name} ({self.lat}, {self.lon})'
+    return f'{self.name}: ({self.lat}, {self.lon})'
 
   def __repr__(self):
-        return f'self.name = {self.name}, self.lat = {self.lat}, self.lon = {self.lon}'
+    return f'self.name: {self.name}, self.lat:{self.lat}, self.lon{self.lon}'
 
 # We have a collection of US cities with population over 750,000 stored in the
 # file "cities.csv". (CSV stands for "comma-separated values".)
@@ -51,8 +51,8 @@ def cityreader(cities=[]):
 cityreader(cities)
 
 # Print the list of cities (name, lat, lon), 1 record per line.
-for c in cities:
-    print(c)
+# for c in cities:
+#     print(c)
 
 
 # STRETCH GOAL!
@@ -91,7 +91,30 @@ def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
   within = []
 
   # TODO Ensure that the lat and lon valuse are all floats
+  lat1 = float(lat1)
+  lat2 = float(lat2)
+  lon1 = float(lon1)
+  lon2 = float(lon2)
   # Go through each city and check to see if it falls within 
   # the specified coordinates.
+  for city in cities:
+    is_lat_within = lat1 < city.lat < lat2 or lat2 < city.lat < lat1
+    is_lon_within = lon1 < city.lon < lon2 or lon2 < city.lon < lon1
+    if is_lat_within and is_lon_within:
+      within.append(city)
 
   return within
+
+
+lat1, lon1 = input('Enter lat1,lon1: ').split(",")
+lat2, lon2 = input('Enter lat2,lon2: ').split(",")
+
+if lat1 and lon1 and lat2 and lon2:
+  res = cityreader_stretch(lat1, lon1, lat2, lon2, cities)
+  for city in res:
+    print(city)
+
+# Enter lat1,lon1: 45,-100
+# Enter lat2,lon2: 32,-120
+# print(cityreader_stretch(32, -120, 45, -100, cities))
+# print(cityreader_stretch(45, -100, 32, -120, cities))
