@@ -128,6 +128,6 @@ while True:
       else:
         print('No cities match your query')
   except ValueError:
-    print('Please enter latitude and longitude values separated by a comma (i.e. 45,-100')
+    print('Please enter latitude and longitude values separated by a comma (i.e. 45,-100).')
 
 # example coordinates: 45,-100, 32,-120
