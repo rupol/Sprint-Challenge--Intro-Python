@@ -95,9 +95,10 @@ def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
   lat2 = float(lat2)
   lon1 = float(lon1)
   lon2 = float(lon2)
-  # Go through each city and check to see if it falls within 
-  # the specified coordinates.
+  # Go through each city and check to see if it falls within the specified coordinates.
+  # should output all the cities that fall within the coordinate square.
   for city in cities:
+    # normalize the input data so that input order doesn't matter
     is_lat_within = lat1 < city.lat < lat2 or lat2 < city.lat < lat1
     is_lon_within = lon1 < city.lon < lon2 or lon2 < city.lon < lon1
     if is_lat_within and is_lon_within:
@@ -105,16 +106,28 @@ def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
 
   return within
 
+while True:
+  # Allow the user to input two points, each specified by lat and long
+  print('Enter coordinates to see cities within. Type q to quit at any time.')
+  input1 = input('Enter lat1,lon1: ')
+  if input1 == 'q' or input1 == 'quit':
+    break
+  input2 = input('Enter lat2,lon2: ')
+  if input2 == 'q' or input2 == 'quit':
+    break
+  try:
+    # normalize the input data
+    lat1, lon1 = input1.split(",")
+    lat2, lon2 = input2.split(",")
+    if lat1 and lon1 and lat2 and lon2:
+      # Pass these latitude and longitude values as parameters to the `cityreader_stretch` function, along with the `cities` list that holds all the City instances from the `cityreader`
+      res = cityreader_stretch(lat1, lon1, lat2, lon2, cities)
+      if len(res) > 0:
+        for city in res:
+          print(city)
+      else:
+        print('No cities match your query')
+  except ValueError:
+    print('Please enter latitude and longitude values separated by a comma (i.e. 45,-100')
 
-lat1, lon1 = input('Enter lat1,lon1: ').split(",")
-lat2, lon2 = input('Enter lat2,lon2: ').split(",")
-
-if lat1 and lon1 and lat2 and lon2:
-  res = cityreader_stretch(lat1, lon1, lat2, lon2, cities)
-  for city in res:
-    print(city)
-
-# Enter lat1,lon1: 45,-100
-# Enter lat2,lon2: 32,-120
-# print(cityreader_stretch(32, -120, 45, -100, cities))
-# print(cityreader_stretch(45, -100, 32, -120, cities))
+# example coordinates: 45,-100, 32,-120
